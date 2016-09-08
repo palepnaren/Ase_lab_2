@@ -1,0 +1,74 @@
+<! DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" type="application/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUnppqHOWgbDf82yVzP2hK89O3EfbNWmk&v=3.exp&sensor=true"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+    #map {
+    width: 550px;
+    height: 500px;
+}
+    </style>
+    <nav class="navbar navbar-light" style="background-color: lightblue;">
+<div class="container-fluid">
+   <div class="navbar-header">
+   <a class="navbar-brand" href="/Users/narenpalep/Desktop/map.html"><font color="black">Home</font></a>
+ </div>
+     <ul class="nav navbar-nav">
+       <li><a href="/Users/narenpalep/Desktop/login-page.html"><font color="black">login</font></a></li>
+         <li><a href="/Users/narenpalep/Desktop/registration.html"><font color="black">register</font></a></li>
+     </ul>
+   </div>
+ </nav>
+    </head>
+<body>
+    <div ng-app="geolocation" class="map" ng-controller="YourCurrentLocation" align="center">
+    <p>Now showing your current location:</p>
+    
+    <div id="map"></div>
+        </div>
+    </body>
+</html>
+
+<script>
+    var app = angular.module('geolocation', [])
+    .controller('YourCurrentLocation',function($scope){
+        var map;
+        var options;
+        
+        $scope.initialize = function(){
+            navigator.geolocation.getCurrentPosition(function(position){
+                
+                var getPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                
+                options = {
+                    zoom: 20,
+                    center: getPos
+                };
+                
+                map = new google.maps.Map(document.getElementById('map'), options);
+                
+                var marker = new google.maps.Marker({
+                    icon: {
+                        path: google.maps.SymbolPath.BALLOON,
+                        scale: 6
+                         },
+                    position: getPos,
+                    map: map
+                });
+                
+            });
+        };
+        
+        google.maps.event.addDomListener(window,'load',$scope.initialize);
+        
+        
+    });
+    </script>
